@@ -1,0 +1,118 @@
+{
+    "manager": {
+        "incoming": {
+            "method": "renderIncoming",
+            "statusesForOrders": ["incoming"]
+        },
+        "acceptingPhotographer": {
+            "method": "renderAcceptingPhotographer",
+            "statusesForOrders": ["acceptingPhotographer"]
+        },
+        "shooting": {
+            "method": "renderShooting",
+            "statusesForOrders": ["shooting"]
+        },
+        "acceptingEditor": {
+            "method": "renderAcceptingEditor",
+            "statusesForOrders": ["acceptingEditor"]
+        },
+        "editing": {
+            "method": "renderEditing",
+            "statusesForOrders": ["editing"]
+        },
+        "sending": {
+            "method": "renderSending",
+            "statusesForOrders": ["sending"]
+        },
+        "completed": {
+            "method": "renderCompleted",
+            "statusesForOrders": ["completed"]
+        },
+        "canceled": {
+            "method": "renderCanceled",
+            "statusesForOrders": ["canceled"]
+        },
+        "feedbacks": {
+            "method": "renderFeedbacks",
+            "statusesForOrders": ["feedbacks"]
+        },
+        "addOrder": {
+            "method": "renderAddOrder",
+            "statusesForOrders": ["addOrder"]
+        },
+        "statistics": {
+            "method": "renderStatistics",
+            "statusesForOrders": ["statistics"]
+        },
+        "employees": {
+            "method": "renderEmployees",
+            "statusesForOrders": ["employees"]
+        }
+    },
+    "photographer": {
+        "incoming": {
+            "method": "renderAcceptingPhotographer",
+            "statusesForOrders": ["acceptingPhotographer"]
+        },
+        "shooting": {
+            "method": "renderShooting",
+            "statusesForOrders": ["shooting"]
+        },
+        "editing": {
+            "method": "renderEditing",
+            "statusesForOrders":
+                [
+                    "acceptingEditor",
+                    "editing",
+                    "sending"
+                ]
+        },
+        "completed": {
+            "method": "renderCompleted",
+            "statusesForOrders":
+                [
+                    "acceptingEditor",
+                    "editing",
+                    "sending", 
+                    "completed"
+                ]
+        },
+        "canceled": {
+            "method": "renderCanceled",
+            "statusesForOrders": ["canceled"]
+        },
+        "feedbacks": {
+            "method": "renderFeedbacks",
+            "statusesForOrders": ["feedbacks"]
+        },
+        "statistics": {
+            "method": "renderStatistics",
+            "statusesForOrders": ["statistics"]
+        }
+    },
+    "editor": {
+        "incoming": {
+            "method": "renderIncoming",
+            "statusesForOrders": ["acceptingEditor"]
+        },
+        "editing": {
+            "method": "renderEditing",
+            "statusesForOrders": ["editing"]
+        },
+        "completed": {
+            "method": "renderCompleted",
+            "statusesForOrders": [
+                "sending", 
+                "completed"
+            ]
+        },
+        "feedbacks": {
+            "method": "renderFeedbacks",
+            "statusesForOrders": ["feedbacks"]
+        },
+        "statistics": {
+            "method": "renderStatistics",
+            "statusesForOrders": ["statistics"]
+        }
+    }
+}
