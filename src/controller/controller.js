@@ -1,43 +1,29 @@
-// import dataOrders from '../data/orderData.json'  assert { type: "json" };
-// import Router from './router.js';
 import Listeners from './listeners.js';
 import Api from './api.js';
-
-const START_PAGE = 'signin';
 
 class Controller {
     constructor(view, model) {
         this.view = view;
         this.model = model;
         this.api = new Api();
-        // this.router = new Router(this);
-        this.pageName = START_PAGE;
-        // this.startPage = 'signin';
-        
         this.listeners = new Listeners(this);
-        this.pageListeners = {
-            signin: () => this.listeners.signIn(),
-            manager: (role) => this.listeners.routingMenu(role),
-            photographer: (role) => this.listeners.routingMenu(role),
-            editor: (role) => this.listeners.routingMenu(role),
-        };
     }
 
     start() {
         this.view.renderSignIn();
         this.listeners.signIn();
 
-        // this.updateOrder('630383851f03c78cc3562156', 'acceptingPhotographer');
-        // this.updateOrder('6303848981b5339d4fce5d22', 'shooting');
-        // this.updateOrder('6308cbd1a509b499eb04583b', 'acceptingEditor');
-        // this.updateOrder('630387d47188d92f664ce91b', 'editing');
-        // this.updateOrder('630389da26bf30f0c954b7a1', 'sending');
-        // this.updateOrder('6305126d2bd69b0dc944d90b', 'completed');
-        // this.updateOrder('63051ec92bd69b0dc944d90e', 'canceled');
-        // this.updateOrder('6307c2896e7892024474117e', 'feedbacks');
-        // this.updateOrder('6307c28d6e78920244741180', 'shooting');
-        // this.updateOrder('6307c2d36e78920244741183', 'editing');
-        // this.updateOrder('6308cbbfa509b499eb045835', 'shooting');
+        // this.updateOrderStatus('630383851f03c78cc3562156', 'acceptingPhotographer');
+        // this.updateOrderStatus('6303848981b5339d4fce5d22', 'shooting');
+        // this.updateOrderStatus('6308cbd1a509b499eb04583b', 'acceptingEditor');
+        // this.updateOrderStatus('630387d47188d92f664ce91b', 'editing');
+        // this.updateOrderStatus('630389da26bf30f0c954b7a1', 'sending');
+        // this.updateOrderStatus('6305126d2bd69b0dc944d90b', 'completed');
+        // this.updateOrderStatus('63051ec92bd69b0dc944d90e', 'canceled');
+        // this.updateOrderStatus('6307c2896e7892024474117e', 'feedbacks');
+        // this.updateOrderStatus('6307c28d6e78920244741180', 'shooting');
+        // this.updateOrderStatus('6307c2d36e78920244741183', 'editing');
+        // this.updateOrderStatus('6308cbbfa509b499eb045835', 'shooting');
     }
 
     async getRole(formData) {
@@ -57,7 +43,7 @@ class Controller {
         return orders;
     }
 
-    updateOrder(id, orderStatus) {
+    updateOrderStatus(id, orderStatus) {
         const data = {
             _id: id,
             status: orderStatus,
@@ -73,6 +59,13 @@ class Controller {
 export default Controller;
 
 // ------------------------- archive -----------------------------
+
+        // this.pageListeners = {
+        //     signin: () => this.listeners.signIn(),
+        //     manager: (role) => this.listeners.routingMenu(role),
+        //     photographer: (role) => this.listeners.routingMenu(role),
+        //     editor: (role) => this.listeners.routingMenu(role),
+        // };
 
     // renderCab(pageName) {
     //     const role = this.model.getAuth().role;
