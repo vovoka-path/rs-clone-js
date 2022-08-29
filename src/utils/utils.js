@@ -1,3 +1,5 @@
+import cabViews from '../data/cabViews.json' assert { type: "json" };
+
 export const createCustomElement = (tag = 'div', styles) => {
     // styles = 'class1 class2 class3'
     const element = document.createElement(tag);
@@ -23,4 +25,33 @@ export const isShowOrderKey = (key, forbiddenOrderKeys) => {
     }
 
     return true;
+}
+
+export const getStatuses = (role, roleStatus) => {
+    const statuses = cabViews[role][roleStatus].statusesForOrders;
+
+    return statuses;
+}
+
+export const getOrdersByStatuses = (allOrders, statuses) => {
+    let orders = [];
+
+    statuses.forEach((status) => {
+        orders = [...orders, ...filterOrdersByStatus(allOrders, status)];
+    })
+
+    return orders;
+}
+
+export const filterOrdersByStatus = (orders, status) => {
+    const filteredOrders = [];
+
+    orders.forEach((order) => {
+        // Получаем заказы только c текущим статусом
+        if (order.status === status) {
+            filteredOrders.push(order);
+        }
+    });
+
+    return filteredOrders;
 }

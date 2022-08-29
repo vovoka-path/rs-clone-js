@@ -1,16 +1,17 @@
-import Listeners from './listeners.js';
 import Api from './api.js';
+import Listeners from './listeners.js';
 
 class Controller {
     constructor(view, model) {
         this.view = view;
         this.model = model;
         this.api = new Api();
-        this.listeners = new Listeners(this);
+        this.listeners = new Listeners();
     }
 
     start() {
         this.view.renderSignIn();
+        this.listeners.bindHandlers(this);
         this.listeners.signIn();
 
         // this.updateOrderStatus('630383851f03c78cc3562156', 'acceptingPhotographer');

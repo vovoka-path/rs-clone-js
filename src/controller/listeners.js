@@ -1,9 +1,14 @@
 import Router from './router.js';
+import { getStatuses, getOrdersByStatuses } from '../utils/utils.js';
 
-class Listeners {
-    constructor(controller) {
+class Listeners extends Router{
+    constructor() {
+        super();
+    }
+    
+    bindHandlers(controller) {
         this.controller = controller;
-        this.router = new Router(this.controller);
+        this.orderButtonListener = this.orderButtonListenerNotBind.bind(this.controller);
     }
 
     async signIn() {
@@ -28,10 +33,10 @@ class Listeners {
             
             // TODO?: get orders depend on defaultStatus
             const orders = await this.controller.getOrderData(this.controller.model.auth.token);
-            const statuses = this.router.getStatuses(role, roleStatus);
+            const statuses = getStatuses(role, roleStatus);
 
             // const filteredOrders = this.router.filterOrdersByStatus(orders, startStatus);
-            const filteredOrders = this.router.getOrdersByStatuses(orders, statuses)
+            const filteredOrders = getOrdersByStatuses(orders, statuses)
             
             const props = {
                 role: role,
@@ -39,7 +44,7 @@ class Listeners {
                 orderStatuses: statuses,
                 order: {},
                 orders: filteredOrders,
-                orderButtonListener: this.router.orderButtonListener,
+                orderButtonListener: this.orderButtonListener,
             };
 
             // console.log('# L props = ', props.orderButtonListener);
@@ -50,35 +55,68 @@ class Listeners {
             this.routingMenu(role);
         }, true);
     }
+    
+    // обработчик кликов по меню
+    async handleMenuClick(roleStatus) {
+        // Запоминаем новый статус работника в model
+        this.controller.model.roleStatus = roleStatus;
 
-    routingMenu(role) {
-        const view = this.controller.view;
-
-        this.router.init(role);
-
-        // обработчик нажатий на ссылки
-        let handler = event =>  {
-            event.preventDefault();
-            
-            let url = new URL(event.currentTarget.href);
-            
-            // запускаем роутер, предавая ему path
-            this.router.dispatch(url.pathname);
-
-            // заголовок DELETE!
-            view.cab.ordersList.header.innerText = url.pathname.split('/')[2];
-
-            return false;
+        const allOrders = await this.controller.getOrderData();
+        
+        const role = this.controller.model.auth.role;
+        const statuses = getStatuses(role, roleStatus);
+        const orders = getOrdersByStatuses(allOrders, statuses);
+        
+        // console.log(`role= ${role} ! roleStatus= ${roleStatus}`);
+        
+        const props = {
+            role: role,
+            roleStatus: roleStatus,
+            orderStatuses: statuses,
+            order: {},
+            orders: orders,
+            orderButtonListener: this.orderButtonListener,
+            statusButtonListener: null, // добавляем после входа в конкретный заказ
         }
 
-        // получаем все ссылки на странице
-        let anchors = document.getElementsByName('menu-item');
-        
-        // вешаем на событие click обработчик
-        for( let anchor of anchors ) {
-            anchor.addEventListener('click', handler);
+        this.controller.view.cab.renderOrderList(props);
+    }
+
+    statusButtonListener() {
+
+    }
+
+    // обработчик кнопки списка заказов "Посмотреть заказ"
+    orderButtonListenerNotBind() {
+        // показать M2: Входящий заказ (один)
+        return (event) => {
+            // this = controller
+            // console.log('# orderButtonListener: this = ', this);
+            const orderId = event.target.id;
+            const role = this.model.auth.role;
+            const roleStatus = this.model.roleStatus;
+            const statuses = getStatuses(role, roleStatus);
+
+            const orders = this.model.orders;
+            
+            const [ currentOrder ] = orders.filter((order) => {
+                return order._id === orderId;
+            });
+
+            const props = {
+                role: role,
+                roleStatus: roleStatus,
+                orderStatuses: statuses,
+                order: currentOrder,
+                orders: orders,
+                // orderButtonListener: this.orderButtonListener,
+            }
+            
+            this.view.cab.cabContainer.innerHTML = '';
+            this.view.cab.renderStatusView(props);
         }
     }
+    
 }
 
 export default Listeners;
