@@ -36,7 +36,7 @@ class Controller {
     }
     
     async getOrderData(){
-        const orders = await this.api.getOrderData();
+        const orders = await this.api.getOrderData(this.model.auth.token);
         this.model.orders = orders;
         // console.log('# orders = ', orders);
 
@@ -73,7 +73,7 @@ export default Controller;
     //     this.view.container.innerHTML = '';
 
     //     (async () => {
-    //         const orders = await this.getOrderData();
+    //         const orders = await this.getOrderData(this.model.auth.token);
     //         this.view.render(pageName, orders, this.listeners.router.previewButtons());
     //         this.pageListeners[pageName](role);
     //     })();

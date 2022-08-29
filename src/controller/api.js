@@ -3,10 +3,16 @@ class Api {
         this.domen = 'http://127.0.0.1:5000';
     }
 
-    async getOrderData(){
+    async getOrderData(token){
+        const authorization = `Bearer ${token}`;
+
         try {
             const response = await fetch(`${this.domen}/api/orders`, {
                 method: 'GET',
+                headers: {
+                    "Authorization": authorization,
+                    'Content-Type': 'application/json' 
+                },
             });
 
             if (response.status === 200) {

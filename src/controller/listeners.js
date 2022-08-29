@@ -27,7 +27,7 @@ class Listeners {
             this.controller.model.roleStatus = roleStatus;
             
             // TODO?: get orders depend on defaultStatus
-            const orders = await this.controller.getOrderData();
+            const orders = await this.controller.getOrderData(this.controller.model.auth.token);
             const statuses = this.router.getStatuses(role, roleStatus);
 
             // const filteredOrders = this.router.filterOrdersByStatus(orders, startStatus);
